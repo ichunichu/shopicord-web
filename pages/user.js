@@ -12,7 +12,7 @@ export default function User() {
         data
             .then((res) => setLoggedInUser(res))
             .catch((err) => {
-                router.push("/");
+                //router.push("/");
                 console.log(err);
             });
     };

@@ -1,6 +1,8 @@
 import Head from "next/head";
 import { Button, Center } from "@chakra-ui/react";
-import {account} from "../lib/auth";
+import {account, client} from "../lib/auth";
+import {useRouter} from "next/router";
+import {useEffect, useState} from "react";
 
 export default function Home() {
 
@@ -14,6 +16,23 @@ export default function Home() {
             throw error;
         }
     };
+    const [loggedInUser, setLoggedInUser] = useState(null);
+    const router = useRouter();
+
+    const getLoggedInUser = async () => {
+        const data = (await client) && account.get();
+        data
+            .then((res) => setLoggedInUser(res))
+            .catch((err) => {
+                router.push("/");
+                console.log(err);
+            });
+    };
+
+    useEffect(() => {
+        getLoggedInUser();
+    }, []);
+
 
     return (
         <Center>
